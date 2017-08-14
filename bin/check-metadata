@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+begin
+  require 'puppet_metadata_checker'
+rescue LoadError
+  $LOAD_PATH.unshift(*Dir[File.expand_path("../../lib", __FILE__)])
+  require 'puppet_metadata_checker'
+end
+
+forge = PuppetMetadataChecker::ForgeVersions.new
+verbose = false
+
+ARGV.each do |filename|
+  puts "Checking #{filename}"
+  checker = MetadataChecker.new(JSON.parse(File.read(filename)), forge)
+  checker.dependencies.each do |dependency, constraint, current, satisfied|
+    if satisfied
+      if verbose
+        puts "  #{dependency} (#{constraint}) matches #{current}"
+      end
+    else
+      puts "  #{dependency} (#{constraint}) doesn't match #{current}"
+    end
+  end
+end
