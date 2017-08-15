@@ -14,7 +14,7 @@ verbose = false
 
 ARGV.each do |filename|
   puts "Checking #{filename}"
-  checker = MetadataChecker.new(JSON.parse(File.read(filename)), forge)
+  checker = PuppetMetadataChecker::MetadataChecker.new(JSON.parse(File.read(filename)), forge)
   checker.dependencies.each do |dependency, constraint, current, satisfied|
     if satisfied
       if verbose
