@@ -2,11 +2,12 @@ Gem::Specification.new do |s|
   s.name        = 'metadata_json_deps'
   s.version     = '0.1.0'
   s.licenses    = ['MIT']
-  s.summary     = 'Check your Puppet metadata'
+  s.summary     = 'Check your Puppet metadata dependencies'
   s.description = 'Verify all your dependencies allow the latest versions on Puppet Forge'
   s.authors     = ['Ewoud Kohl van Wijngaarden']
   s.email       = 'ewoud+rubygems@kohlvanwijngaarden.nl'
   s.files       = Dir['lib/**/*.rb'] + Dir['bin/*']
+  s.extra_rdoc_files = ['README']
   s.homepage    = 'https://github.com/ekohl/metadata_json_deps'
   s.metadata    = { 'source_code_uri' => 'https://github.com/ekohl/metadata_json_deps' }
   s.executables << 'metadata-json-deps'
