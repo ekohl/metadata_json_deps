@@ -1,13 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'json'
-
-begin
-  require 'puppet_metadata_checker'
-rescue LoadError
-  $LOAD_PATH.unshift(*Dir[File.expand_path("../../lib", __FILE__)])
-  require 'puppet_metadata_checker'
-end
+require 'puppet_metadata_checker'
 
 forge = PuppetMetadataChecker::ForgeVersions.new
 verbose = false
