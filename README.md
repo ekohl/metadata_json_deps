@@ -10,12 +10,12 @@ metadata-json-deps is compatible with Ruby versions 2.0.0 and newer.
 
 via `gem` command:
 ``` shell
-gem install metadata-json-deps
+gem install metadata_json_deps
 ```
 
 via Gemfile:
 ``` ruby
-gem 'metadata-json-deps'
+gem 'metadata_json_deps'
 ```
 
 ## Usage
@@ -40,8 +40,10 @@ You can also integrate `metadata-json-deps` checks into your tests using a Rake 
 
 ```ruby
 require 'metadata_json_deps'
+
+desc 'Run metadata-json-deps'
 task :metadata_deps do
   files = FileList['modules/*/metadata.json']
-  PuppetMetadataChecker::Runner.run(files)
+  MetadataJsonDeps::Runner.run(files)
 end
 ```
