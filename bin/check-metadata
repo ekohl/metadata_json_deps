@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'json'
 require 'optparse'
 require 'puppet_metadata_checker'
 
@@ -11,18 +10,4 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-forge = PuppetMetadataChecker::ForgeVersions.new
-
-ARGV.each do |filename|
-  puts "Checking #{filename}"
-  checker = PuppetMetadataChecker::MetadataChecker.new(JSON.parse(File.read(filename)), forge)
-  checker.dependencies.each do |dependency, constraint, current, satisfied|
-    if satisfied
-      if options[:verbose]
-        puts "  #{dependency} (#{constraint}) matches #{current}"
-      end
-    else
-      puts "  #{dependency} (#{constraint}) doesn't match #{current}"
-    end
-  end
-end
+PuppetMetadataChecker::Runner.run(ARGV, options[:verbose])
