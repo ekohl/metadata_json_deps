@@ -1,17 +1,24 @@
 #!/usr/bin/env ruby
 
 require 'json'
+require 'optparse'
 require 'puppet_metadata_checker'
 
+options = {}
+OptionParser.new do |opts|
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+    options[:verbose] = v
+  end
+end.parse!
+
 forge = PuppetMetadataChecker::ForgeVersions.new
-verbose = false
 
 ARGV.each do |filename|
   puts "Checking #{filename}"
   checker = PuppetMetadataChecker::MetadataChecker.new(JSON.parse(File.read(filename)), forge)
   checker.dependencies.each do |dependency, constraint, current, satisfied|
     if satisfied
-      if verbose
+      if options[:verbose]
         puts "  #{dependency} (#{constraint}) matches #{current}"
       end
     else
