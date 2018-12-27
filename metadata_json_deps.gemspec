@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = ['Ewoud Kohl van Wijngaarden']
   s.email       = 'ewoud+rubygems@kohlvanwijngaarden.nl'
   s.files       = Dir['lib/**/*.rb'] + Dir['bin/*']
-  s.extra_rdoc_files = ['README']
+  s.extra_rdoc_files = ['README.md']
   s.homepage    = 'https://github.com/ekohl/metadata_json_deps'
   s.metadata    = { 'source_code_uri' => 'https://github.com/ekohl/metadata_json_deps' }
   s.executables << 'metadata-json-deps'
