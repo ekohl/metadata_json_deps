@@ -1,6 +1,6 @@
 require 'semantic_puppet'
 
-module PuppetMetadataChecker
+module MetadataJsonDeps
   class MetadataChecker
     def initialize(metadata, forge)
       @metadata = metadata

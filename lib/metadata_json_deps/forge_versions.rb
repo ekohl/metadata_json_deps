@@ -1,7 +1,7 @@
 require 'puppet_forge'
 require 'semantic_puppet'
 
-module PuppetMetadataChecker
+module MetadataJsonDeps
   class ForgeVersions
     def initialize(cache = {})
       @cache = cache

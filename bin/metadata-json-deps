@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
-require 'puppet_metadata_checker'
+require 'metadata_json_deps'
 
 options = {}
 OptionParser.new do |opts|
@@ -10,4 +10,4 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-PuppetMetadataChecker::Runner.run(ARGV, options[:verbose])
+MetadataJsonDeps::Runner.run(ARGV, options[:verbose])

@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'puppet_metadata_checker'
+  s.name        = 'metadata_json_deps'
   s.version     = '0.1.0'
   s.licenses    = ['MIT']
   s.summary     = 'Check your Puppet metadata'
@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.authors     = ['Ewoud Kohl van Wijngaarden']
   s.email       = 'ewoud+rubygems@kohlvanwijngaarden.nl'
   s.files       = Dir['lib/**/*.rb'] + Dir['bin/*']
-  s.homepage    = 'https://github.com/ekohl/puppet_metadata_checker'
-  s.metadata    = { 'source_code_uri' => 'https://github.com/ekohl/puppet_metadata_checker' }
-  s.executables << 'check-metadata'
+  s.homepage    = 'https://github.com/ekohl/metadata_json_deps'
+  s.metadata    = { 'source_code_uri' => 'https://github.com/ekohl/metadata_json_deps' }
+  s.executables << 'metadata-json-deps'
 
   s.required_ruby_version = Gem::Requirement.new('>= 2.0.0')
 
