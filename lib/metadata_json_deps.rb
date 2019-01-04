@@ -1,5 +1,6 @@
+# Module for checking the dependencies of Puppet Module using data retrieved from the Puppet Forge.
 module MetadataJsonDeps
-  autoload :ForgeVersions, 'metadata_json_deps/forge_versions'
+  autoload :ForgeHelper, 'metadata_json_deps/forge_helper'
   autoload :MetadataChecker, 'metadata_json_deps/metadata_checker'
   autoload :Runner, 'metadata_json_deps/runner'
 end
