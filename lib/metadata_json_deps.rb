@@ -1,6 +1,5 @@
 require 'puppet_forge'
 require 'puppet_metadata'
-require 'semantic_puppet'
 
 module MetadataJsonDeps
   class ForgeVersions
@@ -10,17 +9,7 @@ module MetadataJsonDeps
 
     def get_current_version(name)
       name = name.sub('/', '-')
-      @cache[name] ||= get_version(get_mod(name))
-    end
-
-    private
-
-    def get_mod(name)
-      PuppetForge::Module.find(name)
-    end
-
-    def get_version(mod)
-      SemanticPuppet::Version.parse(mod.current_release.version)
+      @cache[name] ||= PuppetForge::Module.find(name).current_release.version
     end
   end
 
@@ -34,7 +23,7 @@ module MetadataJsonDeps
       metadata.dependencies.map do |dependency, constraint|
         current = forge.get_current_version(dependency)
 
-        if constraint.include?(current)
+        if metadata.satisfies_dependency?(dependency, current)
           if verbose
             puts "  #{dependency} (#{constraint}) matches #{current}"
           end
