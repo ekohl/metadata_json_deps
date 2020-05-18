@@ -1,4 +1,4 @@
-require 'json'
+require 'puppet_metadata'
 
 module MetadataJsonDeps
   class Runner
@@ -11,9 +11,12 @@ module MetadataJsonDeps
     def run
       @filenames.each do |filename|
         puts "Checking #{filename}"
-        checker = MetadataJsonDeps::MetadataChecker.new(JSON.parse(File.read(filename)), @forge)
-        checker.dependencies.each do |dependency, constraint, current, satisfied|
-          if satisfied
+        metadata = PuppetMetadata.read(filename)
+
+        metadata.dependencies.map do |dependency, constraint|
+          current = @forge.get_current_version(dependency)
+
+          if constraint.include?(current)
             if @verbose
               puts "  #{dependency} (#{constraint}) matches #{current}"
             end
