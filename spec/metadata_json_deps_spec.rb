@@ -36,6 +36,28 @@ describe MetadataJsonDeps do
 
     let(:module_version) { '>= 0' }
 
+    context 'that depends on a deprecated module' do
+      context 'with replacement' do
+        let(:module_name) { 'puppetlabs/mssql' }
+
+        it { expect { subject }.to output(%r{\AChecking .+puppet-module.+\.json\n  puppetlabs/mssql was superseded by puppetlabs-sqlserver\Z}).to_stdout }
+        it { expect { subject }.to_not output.to_stderr }
+      end
+
+      context 'without replacement' do
+        context 'with reason' do
+          let(:module_name) { 'puppetlabs/dsc' }
+
+          it { expect { subject }.to output(%r{\AChecking .+puppet-module.+\.json\n  puppetlabs/dsc was deprecated: Migrate to https://forge\.puppet\.com/dsc modules\Z}).to_stdout }
+          it { expect { subject }.to_not output.to_stderr }
+        end
+
+        # TODO find a module without a reason
+        #context 'without reason' do
+        #end
+      end
+    end
+
     context 'with current dependencies' do
       let(:module_name) { 'puppetlabs/stdlib' }
 

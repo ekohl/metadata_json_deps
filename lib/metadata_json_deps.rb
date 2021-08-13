@@ -7,9 +7,9 @@ module MetadataJsonDeps
       @cache = cache
     end
 
-    def get_current_version(name)
+    def get_module(name)
       name = name.sub('/', '-')
-      @cache[name] ||= PuppetForge::Module.find(name).current_release.version
+      @cache[name] ||= PuppetForge::Module.find(name)
     end
   end
 
@@ -21,14 +21,26 @@ module MetadataJsonDeps
       metadata = PuppetMetadata.read(filename)
 
       metadata.dependencies.map do |dependency, constraint|
-        current = forge.get_current_version(dependency)
+        mod = forge.get_module(dependency)
 
-        if metadata.satisfies_dependency?(dependency, current)
-          if verbose
-            puts "  #{dependency} (#{constraint}) matches #{current}"
+        if mod.deprecated_at
+          if mod.superseded_by
+            puts "  #{dependency} was superseded by #{mod.superseded_by[:slug]}"
+          elsif mod.deprecated_for
+            puts "  #{dependency} was deprecated: #{mod.deprecated_for}"
+          else
+            puts "  #{dependency} was deprecated"
           end
         else
-          puts "  #{dependency} (#{constraint}) doesn't match #{current}"
+          current = mod.current_release.version
+
+          if metadata.satisfies_dependency?(dependency, current)
+            if verbose
+              puts "  #{dependency} (#{constraint}) matches #{current}"
+            end
+          else
+            puts "  #{dependency} (#{constraint}) doesn't match #{current}"
+          end
         end
       end
     end
