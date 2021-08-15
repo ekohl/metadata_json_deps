@@ -13,6 +13,28 @@ module MetadataJsonDeps
     end
   end
 
+  def self.build_fixtures(filename)
+    require 'yaml'
+
+    result = {}
+
+    dependencies = PuppetMetadata.read(filename).dependencies
+    if dependencies.any?
+      forge = ForgeVersions.new
+
+      repositories = {}
+      result['fixtures'] = {'repositories' => repositories}
+
+      dependencies.each do |dependency, _constraint|
+        mod = forge.get_module(dependency)
+        # TODO: The forge should expose the source URL directly
+        repositories[mod.name] = mod.current_release.metadata[:source]
+      end
+    end
+
+    puts result.to_yaml
+  end
+
   def self.run(filenames, verbose = false)
     forge = ForgeVersions.new
 

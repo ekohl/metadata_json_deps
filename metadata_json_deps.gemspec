@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = ['README.md']
   s.homepage    = 'https://github.com/ekohl/metadata_json_deps'
   s.metadata    = { 'source_code_uri' => 'https://github.com/ekohl/metadata_json_deps' }
+  s.executables << 'generate-fixtures-yaml'
   s.executables << 'metadata-json-deps'
 
   # puppet_forge requires Ruby 2.4

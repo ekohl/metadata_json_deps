@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'metadata_json_deps'
+
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: #{opts.program_name} metadata"
+end
+
+parser.parse!
+if ARGV.empty?
+  puts parser.help
+  exit 1
+end
+
+MetadataJsonDeps.build_fixtures(ARGV.first)
