@@ -5,9 +5,7 @@ require 'metadata_json_deps'
 
 options = {}
 OptionParser.new do |opts|
-  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
-    options[:verbose] = v
-  end
-end.parse!
+  opts.on("-v", "--[no-]verbose", "Run verbosely")
+end.parse!(into: options)
 
 MetadataJsonDeps.run(ARGV, options[:verbose])
