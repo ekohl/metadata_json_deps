@@ -8,7 +8,7 @@ module MetadataJsonDeps
     end
 
     def get_module(name)
-      name = name.sub('/', '-')
+      name = PuppetForge::V3.normalize_name(name)
       @cache[name] ||= PuppetForge::Module.find(name)
     end
   end
