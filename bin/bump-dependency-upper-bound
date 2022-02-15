@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'metadata_json_deps'
+
+def main
+  parser = OptionParser.new do |opts|
+    opts.banner = "Usage: #{opts.program_name} module_name new_upper_bound metadata"
+  end
+
+  parser.parse!
+  if ARGV.length < 3
+    STDERR.puts parser.help
+    exit 1
+  end
+
+  module_name, upper_bound, *paths = ARGV
+  module_name = PuppetForge::V3.normalize_name(module_name)
+  paths.each do |path|
+    begin
+      old, new = MetadataJsonDeps.bump_dependency(path, module_name, upper_bound)
+      if old != new
+        puts "Updated #{path}: '#{old}' to '#{new}'"
+      else
+        puts "#{path} already matches #{upper_bound}"
+      end
+    rescue Exception => e
+      puts "Failed to update #{path}: #{e}"
+    end
+  end
+end
+
+main

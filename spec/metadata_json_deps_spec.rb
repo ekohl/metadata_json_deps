@@ -73,4 +73,72 @@ describe MetadataJsonDeps do
       it { expect { subject }.to_not output.to_stderr }
     end
   end
+
+  describe '.bump_dependency' do
+    subject do
+      Tempfile.create(['puppet-module', '.json']) do |f|
+        mod = {
+          "name": "puppet-dummy",
+          "author": "Nobody",
+          "license": "none",
+          "source": "/dev/null",
+          "summary": "Dummy",
+          "version": "0.0.1",
+          "dependencies": [
+            {
+              "name": "puppetlabs-stdlib",
+              "version_requirement": ">= 4.25.1 < 8.0.0",
+            },
+            {
+              "name": "puppet/extlib",
+              "version_requirement": ">= 2.0.0 < 6.0.0",
+            },
+          ],
+        }
+        f.write(mod.to_json)
+        f.flush
+
+        described_class.bump_dependency(f.path, module_name, upper_bound)
+      end
+    end
+
+    context 'with a module using a dash' do
+      let(:module_name) { 'puppetlabs-stdlib' }
+
+      context 'passing a matching version' do
+        let(:upper_bound) { '8.0.0' }
+
+        it { is_expected.to eq(['>= 4.25.1 < 8.0.0', '>= 4.25.1 < 8.0.0']) }
+      end
+
+      context 'passing a new upper bound' do
+        let(:upper_bound) { '9.0.0' }
+
+        it { is_expected.to eq(['>= 4.25.1 < 8.0.0', '>= 4.25.1 < 9.0.0']) }
+      end
+    end
+
+    context 'with a module using a slash' do
+      let(:module_name) { 'puppet/extlib' }
+
+      context 'passing a matching version' do
+        let(:upper_bound) { '6.0.0' }
+
+        it { is_expected.to eq(['>= 2.0.0 < 6.0.0', '>= 2.0.0 < 6.0.0']) }
+      end
+
+      context 'passing a new upper bound' do
+        let(:upper_bound) { '7.0.0' }
+
+        it { is_expected.to eq(['>= 2.0.0 < 6.0.0', '>= 2.0.0 < 7.0.0']) }
+      end
+    end
+
+    context 'with a module not in dependencies' do
+      let(:module_name) { 'puppet/example' }
+      let(:upper_bound) { '42' }
+
+      it { expect { subject }.to raise_error('Dependency puppet/example not found') }
+    end
+  end
 end
