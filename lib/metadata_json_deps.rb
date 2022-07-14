@@ -80,6 +80,8 @@ module MetadataJsonDeps
   def self.run(filenames, verbose = false)
     forge = ForgeVersions.new
 
+    exit_code = 0
+
     filenames.each do |filename|
       puts "Checking #{filename}"
       metadata = PuppetMetadata.read(filename)
@@ -88,6 +90,7 @@ module MetadataJsonDeps
         mod = forge.get_module(dependency)
 
         if mod.deprecated_at
+          exit_code |= 2
           if mod.superseded_by
             puts "  #{dependency} was superseded by #{mod.superseded_by[:slug]}"
           elsif mod.deprecated_for
@@ -103,10 +106,13 @@ module MetadataJsonDeps
               puts "  #{dependency} (#{constraint}) matches #{current}"
             end
           else
+            exit_code |= 1
             puts "  #{dependency} (#{constraint}) doesn't match #{current}"
           end
         end
       end
+
+      exit_code
     end
   rescue Interrupt
   end

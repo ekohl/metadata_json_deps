@@ -8,4 +8,4 @@ OptionParser.new do |opts|
   opts.on("-v", "--[no-]verbose", "Run verbosely")
 end.parse!(into: options)
 
-MetadataJsonDeps.run(ARGV, options[:verbose])
+exit(MetadataJsonDeps.run(ARGV, options[:verbose]))
