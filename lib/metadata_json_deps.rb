@@ -9,7 +9,11 @@ module MetadataJsonDeps
 
     def get_module(name)
       name = PuppetForge::V3.normalize_name(name)
-      @cache[name] ||= PuppetForge::Module.find(name)
+      begin
+        @cache[name] ||= PuppetForge::Module.find(name)
+      rescue Faraday::ResourceNotFound
+        raise PuppetForge::ModuleNotFound.new("Dependency #{name} not found on forge.puppet.com")
+      end
     end
   end
 
