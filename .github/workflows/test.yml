@@ -1,27 +1,17 @@
-name: Test
+---
+name: CI
 
 on:
-  - pull_request
-  - push
+  pull_request:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.ref_name }}-${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - ruby: "3.1"
-          - ruby: "3.2"
-          - ruby: "3.3"
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Ruby ${{ matrix.ruby }}
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-      - name: Run tests
-        run: bundle exec rake spec
-      - name: Verify gem builds
-        run: gem build *.gemspec
+    name: Tests
+    uses: theforeman/actions/.github/workflows/test-gem.yml@v0
