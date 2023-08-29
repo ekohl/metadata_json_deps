@@ -77,6 +77,12 @@ module MetadataJsonDeps
     [requirement.to_s, new]
   end
 
+  # @summary Run the application
+  # @param [Array[String]] filenames
+  #   The filenames to run on
+  # @param [Boolean] verbose
+  #   Whether or not to run in verbose mode
+  # @return [Integer] the exit code
   def self.run(filenames, verbose = false)
     forge = ForgeVersions.new
 
