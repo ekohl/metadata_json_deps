@@ -111,9 +111,10 @@ module MetadataJsonDeps
           end
         end
       end
-
-      exit_code
     end
+
+    exit_code
   rescue Interrupt
+    0
   end
 end
