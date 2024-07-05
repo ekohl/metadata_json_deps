@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = Gem::Requirement.new('>= 2.4.0')
 
   s.add_runtime_dependency 'puppet_forge', '>= 2.2', '< 6'
-  s.add_runtime_dependency 'puppet_metadata', '>= 0.3.0', '< 4'
+  s.add_runtime_dependency 'puppet_metadata', '>= 0.3.0', '< 5'
 
   s.add_development_dependency 'rspec', '~> 3.0'
   s.add_development_dependency 'rake', '~> 13.0'
