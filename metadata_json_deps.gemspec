@@ -14,10 +14,10 @@ Gem::Specification.new do |s|
   s.executables << 'generate-fixtures-yaml'
   s.executables << 'metadata-json-deps'
 
-  # puppet_forge requires Ruby 2.4
-  s.required_ruby_version = Gem::Requirement.new('>= 2.4.0')
+  # puppet_forge 6 requires Ruby 3.1
+  s.required_ruby_version = '>= 3.1'
 
-  s.add_runtime_dependency 'puppet_forge', '>= 2.2', '< 6'
+  s.add_runtime_dependency 'puppet_forge', '~> 6.0'
   s.add_runtime_dependency 'puppet_metadata', '>= 0.3.0', '< 5'
 
   s.add_development_dependency 'rspec', '~> 3.0'
