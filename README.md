@@ -4,7 +4,7 @@ The metadata-json-deps tool validates dependencies in `metadata.json` files in P
 
 ## Compatibility
 
-metadata-json-deps is compatible with Ruby versions 2.4.0 and newer.
+metadata-json-deps is compatible with Ruby versions 3.1 and newer.
 
 ## Installation
 
